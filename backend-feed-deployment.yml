@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-feed
+  labels:
+    app: backend-feed
+spec:
+  selector:
+    matchLabels:
+      app: backend-feed
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: backend-feed
+    spec:
+      containers:
+      - name: backend-feed
+        image: docker.io/bueze/udagram-api-feed:v1
+        env:
+          - name: POSTGRES_DB
+            value: udagramdb
+          - name: POSTGRES_USERNAME
+            value: buez
+          - name: POSTGRES_PASSWORD
+            value: taijutsu
+          - name: POSTGRES_HOST
+            value: buezudagramdevdb.cjwcpzv5s8ik.us-east-1.rds.amazonaws.com
+          - name: AWS_BUCKET
+            value: udagram-515889809196-dev
+          - name: AWS_PROFILE
+            value: buez
+          - name: AWS_REGION
+            value: us-east-1
+          - name: JWT_SECRET
+            value: tiajutsu
+          - name: URL
+            value: http://localhost:8100
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
